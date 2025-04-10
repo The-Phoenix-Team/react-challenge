@@ -7,17 +7,15 @@ import {
 import { Box, IconButton } from '@mui/material';
 
 export interface PaginationActionsProps {
-  count: number;
-  page: number;
+  currentPage: number;
   onPageChange: (page: number) => void;
-  rowsPerPage: number;
+  totalPages: number;
 }
 
 const PaginationActions = ({
-  count,
-  page,
+  currentPage: page,
   onPageChange,
-  rowsPerPage
+  totalPages
 }: PaginationActionsProps) => {
   const handleFirstPageButtonClick = () => {
     onPageChange(0);
@@ -32,7 +30,7 @@ const PaginationActions = ({
   };
 
   const handleLastPageButtonClick = () => {
-    onPageChange(Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onPageChange(Math.max(0, totalPages - 1));
   };
 
   return (
@@ -46,22 +44,22 @@ const PaginationActions = ({
       </IconButton>
       <IconButton
         onClick={handleBackPageButtonClick}
-        disabled={page === 0}
+        disabled={page < 1}
         aria-label='previous page'
       >
         <KeyboardArrowLeft />
       </IconButton>
-      Page {page + 1} of {Math.ceil(count / rowsPerPage)}
+      Page {page + 1} of {totalPages}
       <IconButton
         onClick={handleNextPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= totalPages - 1}
         aria-label='next page'
       >
         <KeyboardArrowRight />
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= totalPages - 1}
         aria-label='last page'
       >
         <LastPage />

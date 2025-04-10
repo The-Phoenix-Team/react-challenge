@@ -75,7 +75,7 @@ const PokemonList = () => {
                 onClick={() => handlePokemonClick(pokemon.name)}
                 sx={{
                   cursor: 'pointer',
-                  backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#fff'
+                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff'
                 }}
               >
                 <TableCell sx={{ border: 0 }}>
@@ -87,9 +87,8 @@ const PokemonList = () => {
         </Table>
       </TableContainer>
       <PaginationActions
-        count={totalCount}
-        page={page}
-        rowsPerPage={rowsPerPage}
+        totalPages={Math.ceil(totalCount / rowsPerPage)}
+        currentPage={page}
         onPageChange={handleChangePage}
       />
     </Paper>
