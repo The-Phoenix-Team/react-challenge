@@ -12,7 +12,7 @@ import {
 import { Pokemon, PokemonResponse } from 'types/pokemonTypes';
 import { fetchPokemonsList } from 'api/apiCalls';
 import PaginationActions from './PaginationActions';
-import AbilitiesTable from './AbilitiesTable';
+import PokemonAbilities from './PokemonAbilities';
 
 const PokemonList = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
@@ -54,7 +54,7 @@ const PokemonList = () => {
 
   if (selectedPokemon) {
     return (
-      <AbilitiesTable pokemonName={selectedPokemon} onBack={handleBackToList} />
+      <PokemonAbilities pokemonName={selectedPokemon} onBack={handleBackToList} />
     );
   }
 

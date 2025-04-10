@@ -17,12 +17,12 @@ interface Ability {
   effect: string;
 }
 
-interface AbilitiesTableProps {
+interface PokemonAbilitiesProps {
   pokemonName: string;
   onBack: () => void;
 }
 
-const AbilitiesTable = ({ pokemonName, onBack }: AbilitiesTableProps) => {
+const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
   const [abilities, setAbilities] = useState<Ability[]>([]);
 
   useEffect(() => {
@@ -79,4 +79,4 @@ const AbilitiesTable = ({ pokemonName, onBack }: AbilitiesTableProps) => {
   );
 };
 
-export default AbilitiesTable;
+export default PokemonAbilities;

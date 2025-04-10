@@ -7,25 +7,34 @@ import {
 import { Box, IconButton } from '@mui/material';
 
 export interface PaginationActionsProps {
-  page: number;
   count: number;
-  rowsPerPage: number;
+  page: number;
   onPageChange: (page: number) => void;
+  rowsPerPage: number;
 }
 
 const PaginationActions = ({
-  page,
   count,
-  rowsPerPage,
-  onPageChange
+  page,
+  onPageChange,
+  rowsPerPage
 }: PaginationActionsProps) => {
   const handleFirstPageButtonClick = () => {
     onPageChange(0);
   };
 
+  const handleBackPageButtonClick = () => {
+    onPageChange(page - 1);
+  };
+
+  const handleNextPageButtonClick = () => {
+    onPageChange(page + 1);
+  };
+
   const handleLastPageButtonClick = () => {
     onPageChange(Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
+
   return (
     <Box sx={{ typography: 'body1' }} className='table-navigation'>
       <IconButton
@@ -36,7 +45,7 @@ const PaginationActions = ({
         <FirstPage />
       </IconButton>
       <IconButton
-        onClick={() => onPageChange(page - 1)}
+        onClick={handleBackPageButtonClick}
         disabled={page === 0}
         aria-label='previous page'
       >
@@ -44,7 +53,7 @@ const PaginationActions = ({
       </IconButton>
       Page {page + 1} of {Math.ceil(count / rowsPerPage)}
       <IconButton
-        onClick={() => onPageChange(page + 1)}
+        onClick={handleNextPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label='next page'
       >
