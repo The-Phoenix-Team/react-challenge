@@ -5,21 +5,20 @@ import {
   LastPage
 } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
-import { blue } from '@mui/material/colors';
 
-export interface CustomTablePaginationActionsProps {
+export interface PaginationActionsProps {
   page: number;
   count: number;
   rowsPerPage: number;
   onPageChange: (page: number) => void;
 }
 
-const CustomTablePaginationActions = ({
+const PaginationActions = ({
   page,
   count,
   rowsPerPage,
   onPageChange
-}: CustomTablePaginationActionsProps) => {
+}: PaginationActionsProps) => {
   const handleFirstPageButtonClick = () => {
     onPageChange(0);
   };
@@ -28,14 +27,7 @@ const CustomTablePaginationActions = ({
     onPageChange(Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
   return (
-    <Box
-      sx={{
-        backgroundColor: blue[50],
-        textAlign: 'center',
-        width: '100%',
-        typography: 'body1'
-      }}
-    >
+    <Box sx={{ typography: 'body1' }} className='table-navigation'>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
@@ -69,4 +61,4 @@ const CustomTablePaginationActions = ({
   );
 };
 
-export default CustomTablePaginationActions;
+export default PaginationActions;

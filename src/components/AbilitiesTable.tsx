@@ -7,11 +7,14 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
+  Box,
+  capitalize
 } from '@mui/material';
+import { fetchAbilitiesForPokemon } from 'api/apiCalls';
 
 interface Ability {
   name: string;
+  effect: string;
 }
 
 interface AbilitiesTableProps {
@@ -25,10 +28,12 @@ const AbilitiesTable = ({ pokemonName, onBack }: AbilitiesTableProps) => {
   useEffect(() => {
     const fetchAbilities = async () => {
       try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-        const data = await response.json();
-        setAbilities(data.abilities.map((ability: any) => ability.ability));
+        const abilitiesWithDescription =
+          await fetchAbilitiesForPokemon(pokemonName);
+        setAbilities(abilitiesWithDescription);
       } catch (error) {
+        // for now, send errors to the console; a more complete solution will handle errors in a user-friendly way
+        // eslint-disable-next-line no-console
         console.error('Failed to fetch abilities:', error);
       }
     };
@@ -38,25 +43,38 @@ const AbilitiesTable = ({ pokemonName, onBack }: AbilitiesTableProps) => {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <Button onClick={onBack} variant="contained" color="primary" sx={{ margin: 2 }}>
-        Back to List
-      </Button>
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="abilities table">
-          <TableHead>
+        <Table sx={{ minWidth: 650 }} aria-label='abilities table'>
+          <TableHead className='table-header'>
             <TableRow>
-              <TableCell>Ability Name</TableCell>
+              <TableCell>Ability</TableCell>
+              <TableCell>Effect</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {abilities.map((ability) => (
-              <TableRow key={ability.name}>
-                <TableCell>{ability.name}</TableCell>
+            {abilities.map((ability, index) => (
+              <TableRow
+                key={ability.name}
+                sx={{
+                  backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#fff'
+                }}
+              >
+                <TableCell sx={{ border: 0 }}>
+                  {capitalize(ability.name)}
+                </TableCell>
+                <TableCell sx={{ border: 0 }}>{ability.effect}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Box
+        onClick={onBack}
+        sx={{ typography: 'subtitle2' }}
+        className='back-to-list'
+      >
+        Back to list view
+      </Box>
     </Paper>
   );
 };

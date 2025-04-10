@@ -1,5 +1,5 @@
 import './App.css';
-import PokemonPage from 'PokemonPage';
+import PokemonPage from 'pages/PokemonPage';
 
 const App = (): React.ReactNode => {
   return <PokemonPage />;

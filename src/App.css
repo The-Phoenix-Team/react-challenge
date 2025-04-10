@@ -1,0 +1,16 @@
+.table-header {
+  background-color: #adcdf7;
+}
+
+.table-navigation {
+  background-color: #deebfd;
+  text-align: center;
+  width: 100%;
+}
+
+.back-to-list {
+  color: #1976d2;
+  cursor: pointer;
+  text-align: right;
+  padding: 8px;
+}

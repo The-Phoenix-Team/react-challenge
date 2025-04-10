@@ -6,23 +6,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  capitalize
 } from '@mui/material';
-import { blue } from '@mui/material/colors';
-import CustomTablePaginationActions from './PaginationActions';
+import { Pokemon, PokemonResponse } from 'types/pokemonTypes';
+import { fetchPokemonsList } from 'api/apiCalls';
+import PaginationActions from './PaginationActions';
 import AbilitiesTable from './AbilitiesTable';
 
-interface Pokemon {
-  name: string;
-  url: string;
-}
-
-interface PokemonResponse {
-  count: number;
-  results: Pokemon[];
-}
-
-const PokemonTable = () => {
+const PokemonList = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -31,12 +23,12 @@ const PokemonTable = () => {
 
   const fetchPokemons = async (offset: number) => {
     try {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${rowsPerPage}&offset=${offset}`
+      const pokemonList: PokemonResponse = await fetchPokemonsList(
+        offset,
+        rowsPerPage
       );
-      const data: PokemonResponse = await response.json();
-      setPokemons(data.results);
-      setTotalCount(data.count);
+      setPokemons(pokemonList.results);
+      setTotalCount(pokemonList.count);
     } catch (error) {
       // for now, send errors to the console; a more complete solution will handle errors in a user-friendly way
       // eslint-disable-next-line no-console
@@ -61,35 +53,40 @@ const PokemonTable = () => {
   };
 
   if (selectedPokemon) {
-    return <AbilitiesTable pokemonName={selectedPokemon} onBack={handleBackToList} />;
+    return (
+      <AbilitiesTable pokemonName={selectedPokemon} onBack={handleBackToList} />
+    );
   }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label='pokemon table'>
+        <Table className='table-header' aria-label='pokemon table'>
           <TableHead>
-            <TableRow sx={{ backgroundColor: blue[100] }}>
+            <TableRow>
               <TableCell>Pokemon Name</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {pokemons.map((pokemon) => (
+            {pokemons.map((pokemon, index) => (
               <TableRow
                 key={pokemon.name}
                 hover
-                sx={{ cursor: 'pointer' }}
                 onClick={() => handlePokemonClick(pokemon.name)}
+                sx={{
+                  cursor: 'pointer',
+                  backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#fff'
+                }}
               >
-                <TableCell component='th' scope='row'>
-                  {pokemon.name}
+                <TableCell sx={{ border: 0 }}>
+                  {capitalize(pokemon.name)}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <CustomTablePaginationActions
+      <PaginationActions
         count={totalCount}
         page={page}
         rowsPerPage={rowsPerPage}
@@ -99,4 +96,4 @@ const PokemonTable = () => {
   );
 };
 
-export default PokemonTable;
+export default PokemonList;
