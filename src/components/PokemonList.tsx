@@ -64,7 +64,7 @@ const PokemonList = () => {
         <Table className='table-header' aria-label='pokemon table'>
           <TableHead>
             <TableRow>
-              <TableCell>Pokemon Name</TableCell>
+              <TableCell>Pokémon Name</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

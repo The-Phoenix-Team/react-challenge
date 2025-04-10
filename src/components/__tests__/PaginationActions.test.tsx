@@ -36,7 +36,7 @@ describe('PaginationActions', () => {
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
 
-  it('should disable previous button on the first page', () => {
+  it('should disable previous and first buttons on the first page', () => {
     const onPageChange = vi.fn();
     const { getByLabelText } = render(
       <PaginationActions
@@ -46,11 +46,13 @@ describe('PaginationActions', () => {
       />
     );
 
+    const firstButton = getByLabelText('first page');
     const prevButton = getByLabelText('previous page');
+    expect(firstButton).toHaveAttribute('disabled');
     expect(prevButton).toHaveAttribute('disabled');
   });
 
-  it('should disable next button on the last page', () => {
+  it('should disable next and last buttons on the last page', () => {
     const onPageChange = vi.fn();
     const { getByLabelText } = render(
       <PaginationActions
@@ -61,7 +63,9 @@ describe('PaginationActions', () => {
     );
 
     const nextButton = getByLabelText('next page');
+    const lastButton = getByLabelText('last page');
     expect(nextButton).toHaveAttribute('disabled');
+    expect(lastButton).toHaveAttribute('disabled');
   });
 
   it('should call onPageChange with correct page when first page button is clicked', () => {
