@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -10,12 +9,7 @@ import {
   Box,
   capitalize
 } from '@mui/material';
-import { fetchAbilitiesForPokemon } from 'api/apiCalls';
-
-interface Ability {
-  name: string;
-  effect: string;
-}
+import useGetPokemonAbilities from 'api/useGetPokemonAbilities';
 
 interface PokemonAbilitiesProps {
   pokemonName: string;
@@ -23,26 +17,21 @@ interface PokemonAbilitiesProps {
 }
 
 const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
-  const [abilities, setAbilities] = useState<Ability[]>([]);
+  const { abilities, loading, error } = useGetPokemonAbilities(pokemonName);
 
-  useEffect(() => {
-    const fetchAbilities = async () => {
-      try {
-        const abilitiesWithDescription =
-          await fetchAbilitiesForPokemon(pokemonName);
-        setAbilities(abilitiesWithDescription);
-      } catch (error) {
-        // for now, send errors to the console; a more complete solution will handle errors in a user-friendly way
-        // eslint-disable-next-line no-console
-        console.error('Failed to fetch abilities:', error);
-      }
-    };
+  if (loading) {
+    return <div>Loading abilities...</div>;
+  }
 
-    fetchAbilities();
-  }, [pokemonName]);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Box sx={{ typography: 'body1', padding: 2 }}>
+        Abilities for {capitalize(pokemonName)}
+      </Box>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label='abilities table'>
           <TableHead className='table-header'>
@@ -56,7 +45,7 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
               <TableRow
                 key={ability.name}
                 sx={{
-                  backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#fff'
+                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff'
                 }}
               >
                 <TableCell sx={{ border: 0 }}>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -9,53 +9,53 @@ import {
   Paper,
   capitalize
 } from '@mui/material';
-import { Pokemon, PokemonResponse } from 'types/pokemonTypes';
-import { fetchPokemonsList } from 'api/apiCalls';
+import { useGetPokemonList } from 'api/useGetPokemonList';
 import PaginationActions from './PaginationActions';
 import PokemonAbilities from './PokemonAbilities';
 
 const PokemonList = () => {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [page, setPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const rowsPerPage = 5;
 
-  const fetchPokemons = async (offset: number) => {
-    try {
-      const pokemonList: PokemonResponse = await fetchPokemonsList(
-        offset,
-        rowsPerPage
-      );
-      setPokemons(pokemonList.results);
-      setTotalCount(pokemonList.count);
-    } catch (error) {
-      // for now, send errors to the console; a more complete solution will handle errors in a user-friendly way
-      // eslint-disable-next-line no-console
-      console.error('Failed to fetch pokemons:', error);
-    }
-  };
+  const { pokemonList, totalCount, loading, error } = useGetPokemonList(
+    page * rowsPerPage,
+    rowsPerPage
+  );
 
-  useEffect(() => {
-    fetchPokemons(page * rowsPerPage);
-  }, [page]);
+  const handleChangePage = React.useCallback(
+    (newPage: number) => {
+      setPage(newPage);
+    },
+    [setPage]
+  );
 
-  const handleChangePage = (newPage: number) => {
-    setPage(newPage);
-  };
+  const handlePokemonClick = React.useCallback(
+    (pokemonName: string) => {
+      setSelectedPokemon(pokemonName);
+    },
+    [setSelectedPokemon]
+  );
 
-  const handlePokemonClick = (pokemonName: string) => {
-    setSelectedPokemon(pokemonName);
-  };
-
-  const handleBackToList = () => {
+  const handleBackToList = React.useCallback(() => {
     setSelectedPokemon(null);
-  };
+  }, [setSelectedPokemon]);
 
   if (selectedPokemon) {
     return (
-      <PokemonAbilities pokemonName={selectedPokemon} onBack={handleBackToList} />
+      <PokemonAbilities
+        pokemonName={selectedPokemon}
+        onBack={handleBackToList}
+      />
     );
+  }
+
+  if (loading) {
+    return <div>Loading Pokémon list...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -68,7 +68,7 @@ const PokemonList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pokemons.map((pokemon, index) => (
+            {pokemonList.map((pokemon, index) => (
               <TableRow
                 key={pokemon.name}
                 hover
