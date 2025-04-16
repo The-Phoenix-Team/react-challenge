@@ -1,0 +1,27 @@
+@import "tailwindcss";
+/* 
+I picked up tailwindcss just yesterday and was surprized how nice it is.
+Having saidt that some things might not be done in the most optimal way.
+
+have chosen colors taht are closest to the colors in the mockup
+ #adcdf7 blue-200
+ #deebfd blue-100
+ #f8f8f8 stone-50
+ #5599f6 blue-400
+if the differnce is too big, collors can be overriden in tailwind.config.js 
+*/
+
+th {
+  @apply bg-blue-200
+}
+tr:nth-child(odd) {
+  @apply bg-stone-50;
+}
+tr.cursor-pointer:hover {
+  @apply bg-gray-200;
+}
+
+.btn-icon {
+  @apply px-1 py-2 cursor-pointer hover:scale-120 
+  disabled:cursor-not-allowed disabled:opacity-30;
+}
