@@ -81,11 +81,19 @@ export function PokemonList() {
         </tbody>
       </table>
       <div className="flex justify-center items-center bg-blue-100">
-        <button onClick={handleFirst} disabled={!hasPrevious()} className="btn-icon"> <MdFirstPage size={26} /> </button>
-        <button onClick={handlePrevious} disabled={!hasPrevious()} className="btn-icon"> <MdNavigateBefore size={26}/> </button>
+        <button onClick={handleFirst} disabled={!hasPrevious()} className="btn-icon" data-testid="first-page-button">
+          <MdFirstPage size={26} />
+        </button>
+        <button onClick={handlePrevious} disabled={!hasPrevious()} className="btn-icon" data-testid="previous-page-button">
+          <MdNavigateBefore size={26} />
+        </button>
         Page {page}  of {maxPage}
-        <button onClick={handleNext} disabled={!hasNext()} className="btn-icon"> <MdNavigateNext size={26}/> </button>
-        <button onClick={handleLast} disabled={!hasNext()} className="btn-icon"> <MdLastPage size={26} /> </button>
+        <button onClick={handleNext} disabled={!hasNext()} className="btn-icon" data-testid="next-page-button">
+          <MdNavigateNext size={26} />
+        </button>
+        <button onClick={handleLast} disabled={!hasNext()} className="btn-icon" data-testid="last-page-button">
+          <MdLastPage size={26} />
+        </button>
       </div>
     </div>
   );

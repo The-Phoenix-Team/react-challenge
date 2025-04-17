@@ -1,4 +1,5 @@
-import { useGetPokemonAbilityQuery } from '../store/pokemonApi';
+import { useGetPokemonAbilityQuery } from "../store/pokemonApi";
+
 
 export function PokemonAbilityDetails({ id }: { id: string }) {
 

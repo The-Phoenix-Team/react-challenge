@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { PokemonAbility, PokemonDetails, PokemonListResponse } from '../pokmon.types';
 import { PAGE_SIZE } from '../pokemon.constants';
+import { PokemonAbility, PokemonDetails, PokemonListResponse } from '../pokemon.types';
 
 export const pokemonApi = createApi({
   keepUnusedDataFor: 3600, //60*60  assume this is static data and cahsing for an hour is ok 
