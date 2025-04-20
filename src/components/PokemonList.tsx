@@ -9,7 +9,7 @@ import {
   Paper,
   capitalize
 } from '@mui/material';
-import { useGetPokemonList } from 'api/useGetPokemonList';
+import useGetPokemonList from 'api/useGetPokemonList';
 import PaginationActions from './PaginationActions';
 import PokemonAbilities from './PokemonAbilities';
 

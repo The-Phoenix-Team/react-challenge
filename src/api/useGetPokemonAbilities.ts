@@ -1,25 +1,6 @@
-import { POKEMON_API_URL } from 'api/apiConstants';
 import { useState, useEffect } from 'react';
 import { PokemonAbility } from 'types/pokemonTypes';
-
-export const fetchAbilitiesForPokemon = async (pokemonName: string) => {
-  const response = await fetch(`${POKEMON_API_URL}/pokemon/${pokemonName}`);
-  const data = await response.json();
-  const abilitiesWithDescription = await Promise.all(
-    data.abilities.map(async (ability: any) => {
-      const abilityResponse = await fetch(ability.ability.url);
-      const abilityData = await abilityResponse.json();
-      return {
-        name: ability.ability.name,
-        effect:
-          abilityData.effect_entries.find(
-            (entry: any) => entry.language.name === 'en'
-          )?.effect || 'No effect available'
-      };
-    })
-  );
-  return abilitiesWithDescription;
-};
+import { fetchAbilitiesForPokemon } from './apiCalls';
 
 const useGetPokemonAbilities = (pokemonName: string) => {
   const [abilities, setAbilities] = useState<PokemonAbility[]>([]);

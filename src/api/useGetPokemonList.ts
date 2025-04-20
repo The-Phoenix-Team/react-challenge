@@ -1,19 +1,8 @@
 import { useEffect, useState } from 'react';
 import { PokemonListData } from 'types/pokemonTypes';
-import { DEFAULT_API_LIMIT, POKEMON_API_URL } from './apiConstants';
+import { fetchPokemonsList } from './apiCalls';
 
-export const fetchPokemonsList = async (
-  offset: number,
-  limit: number = DEFAULT_API_LIMIT
-) => {
-  const response = await fetch(
-    `${POKEMON_API_URL}/pokemon?limit=${limit}&offset=${offset}`
-  );
-  const data: PokemonListData = await response.json();
-  return data;
-};
-
-export const useGetPokemonList = (offset: number, limit: number) => {
+const useGetPokemonList = (offset: number, limit: number) => {
   const [pokemonListData, setPokemonListData] =
     useState<PokemonListData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,3 +29,5 @@ export const useGetPokemonList = (offset: number, limit: number) => {
   const pokemonList = pokemonListData?.results || [];
   return { pokemonList, totalCount, loading, error };
 };
+
+export default useGetPokemonList;
