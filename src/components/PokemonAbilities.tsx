@@ -10,7 +10,7 @@ import {
   capitalize
 } from '@mui/material';
 import { useGetPokemonAbilitiesQuery } from 'store/pokemonApiSlice';
-import AbilityDetail from './AbilityDetail';
+import PokemonAbilityDetail from './PokemonAbilityDetail';
 
 interface PokemonAbilitiesProps {
   pokemonName: string;
@@ -54,7 +54,7 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
                 }}
               >
                 <TableCell sx={{ border: 0 }}>
-                  <AbilityDetail
+                  <PokemonAbilityDetail
                     name={ability.name}
                     url={ability.url}
                     index={index}
