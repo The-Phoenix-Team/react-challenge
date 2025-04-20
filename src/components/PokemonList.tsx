@@ -9,7 +9,7 @@ import {
   Paper,
   capitalize
 } from '@mui/material';
-import { useGetPokemonList } from 'api/useGetPokemonList';
+import { useGetPokemonListQuery } from 'store/pokemonApiSlice';
 import PaginationActions from './PaginationActions';
 import PokemonAbilities from './PokemonAbilities';
 
@@ -18,10 +18,10 @@ const PokemonList = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const rowsPerPage = 5;
 
-  const { pokemonList, totalCount, loading, error } = useGetPokemonList(
-    page * rowsPerPage,
-    rowsPerPage
-  );
+  const { data, error, isLoading } = useGetPokemonListQuery({
+    offset: page * rowsPerPage,
+    limit: rowsPerPage
+  });
 
   const handleChangePage = React.useCallback(
     (newPage: number) => {
@@ -50,12 +50,12 @@ const PokemonList = () => {
     );
   }
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading Pokémon list...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error.toString()}</div>;
   }
 
   return (
@@ -68,7 +68,7 @@ const PokemonList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pokemonList.map((pokemon, index) => (
+            {data?.pokemonList.map((pokemon, index) => (
               <TableRow
                 key={pokemon.name}
                 hover
@@ -87,7 +87,7 @@ const PokemonList = () => {
         </Table>
       </TableContainer>
       <PaginationActions
-        totalPages={Math.ceil(totalCount / rowsPerPage)}
+        totalPages={Math.ceil((data?.totalCount || 0) / rowsPerPage)}
         currentPage={page}
         onPageChange={handleChangePage}
       />

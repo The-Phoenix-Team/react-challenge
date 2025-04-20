@@ -9,7 +9,8 @@ import {
   Box,
   capitalize
 } from '@mui/material';
-import useGetPokemonAbilities from 'api/useGetPokemonAbilities';
+import { useGetPokemonAbilitiesQuery } from 'store/pokemonApiSlice';
+import AbilityDetail from './AbilityDetail';
 
 interface PokemonAbilitiesProps {
   pokemonName: string;
@@ -17,14 +18,18 @@ interface PokemonAbilitiesProps {
 }
 
 const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
-  const { abilities, loading, error } = useGetPokemonAbilities(pokemonName);
+  const {
+    data: abilities,
+    isLoading,
+    error
+  } = useGetPokemonAbilitiesQuery(pokemonName);
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading abilities...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error.toString()}</div>;
   }
 
   return (
@@ -41,7 +46,7 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {abilities.map((ability, index) => (
+            {abilities?.map((ability, index) => (
               <TableRow
                 key={ability.name}
                 sx={{
@@ -49,9 +54,12 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
                 }}
               >
                 <TableCell sx={{ border: 0 }}>
-                  {capitalize(ability.name)}
+                  <AbilityDetail
+                    name={ability.name}
+                    url={ability.url}
+                    index={index}
+                  />
                 </TableCell>
-                <TableCell sx={{ border: 0 }}>{ability.effect}</TableCell>
               </TableRow>
             ))}
           </TableBody>
