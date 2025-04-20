@@ -1,15 +1,25 @@
-import { expect, test } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/store';
 import App from './App';
 
-test('App Renders', () => {
-  const { container } = render(
+const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
     <Provider store={store}>
-      <App />
+      <BrowserRouter>{children}</BrowserRouter>
     </Provider>
   );
-  expect(container).toBeTruthy();
+};
+
+describe('App', () => {
+  it('renders with the expected App and wrappers', () => {
+    const { container } = render(
+      <TestWrapper>
+        <App />
+      </TestWrapper>
+    );
+    expect(container).toBeTruthy();
+  });
 });
