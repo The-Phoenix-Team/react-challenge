@@ -9,7 +9,7 @@ import {
   Box,
   capitalize
 } from '@mui/material';
-import { useGetPokemonAbilitiesQuery } from 'api/pokemonApiSlice';
+import { useGetPokemonAbilitiesQuery } from 'store/pokemonApiSlice';
 import AbilityDetail from './AbilityDetail';
 
 interface PokemonAbilitiesProps {

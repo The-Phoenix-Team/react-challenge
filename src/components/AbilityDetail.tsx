@@ -1,5 +1,5 @@
 import { TableRow, TableCell, capitalize } from '@mui/material';
-import { useGetAbilityDetailsQuery } from 'api/pokemonApiSlice';
+import { useGetAbilityDetailsQuery } from 'store/pokemonApiSlice';
 
 interface AbilityDetailProps {
   name: string;
