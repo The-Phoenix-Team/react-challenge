@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -13,10 +14,23 @@ import { useGetPokemonListQuery } from 'store/pokemonApiSlice';
 import PaginationActions from './PaginationActions';
 import PokemonAbilities from './PokemonAbilities';
 
-const PokemonList = () => {
+interface PokemonListProps {
+  defaultSelectedPokemon?: string;
+}
+
+const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
   const [page, setPage] = useState(0);
-  const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
+  const [selectedPokemon, setSelectedPokemon] = useState<string | null>(
+    defaultSelectedPokemon || null
+  );
+  const navigate = useNavigate();
   const rowsPerPage = 5;
+
+  useEffect(() => {
+    if (defaultSelectedPokemon) {
+      setSelectedPokemon(defaultSelectedPokemon);
+    }
+  }, [defaultSelectedPokemon]);
 
   const { data, error, isLoading } = useGetPokemonListQuery({
     offset: page * rowsPerPage,
@@ -33,13 +47,15 @@ const PokemonList = () => {
   const handlePokemonClick = React.useCallback(
     (pokemonName: string) => {
       setSelectedPokemon(pokemonName);
+      navigate(`/pokemon/${pokemonName}`);
     },
-    [setSelectedPokemon]
+    [navigate]
   );
 
   const handleBackToList = React.useCallback(() => {
     setSelectedPokemon(null);
-  }, [setSelectedPokemon]);
+    navigate('/');
+  }, [navigate]);
 
   if (selectedPokemon) {
     return (
