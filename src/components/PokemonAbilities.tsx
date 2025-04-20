@@ -7,7 +7,8 @@ import {
   TableRow,
   Paper,
   Box,
-  capitalize
+  capitalize,
+  CircularProgress
 } from '@mui/material';
 import { useGetPokemonAbilitiesQuery } from 'store/pokemonApiSlice';
 import PokemonAbilityDetail from './PokemonAbilityDetail';
@@ -21,19 +22,37 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
   const {
     data: abilities,
     isLoading,
-    error
-  } = useGetPokemonAbilitiesQuery(pokemonName);
+    error,
+    isFetching
+  } = useGetPokemonAbilitiesQuery(pokemonName, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: false
+  });
 
   if (isLoading) {
-    return <div>Loading abilities...</div>;
+    return (
+      <Box display='flex' justifyContent='center' p={2}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
-    return <div>Error: {error.toString()}</div>;
+    return (
+      <Box color='error.main' p={2}>
+        Error: {error.toString()}
+      </Box>
+    );
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', position: 'relative' }}>
+      {isFetching && (
+        <Box position='absolute' top={0} right={0} p={2} zIndex={1}>
+          <CircularProgress size={24} />
+        </Box>
+      )}
       <Box sx={{ typography: 'body1', padding: 2 }}>
         Abilities for {capitalize(pokemonName)}
       </Box>
@@ -47,27 +66,23 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
           </TableHead>
           <TableBody>
             {abilities?.map((ability, index) => (
-              <TableRow
-                key={ability.name}
-                sx={{
-                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff'
-                }}
-              >
-                <TableCell sx={{ border: 0 }}>
-                  <PokemonAbilityDetail
-                    name={ability.name}
-                    url={ability.url}
-                    index={index}
-                  />
-                </TableCell>
-              </TableRow>
+              <PokemonAbilityDetail
+                name={ability.name}
+                url={ability.url}
+                index={index}
+              />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       <Box
         onClick={onBack}
-        sx={{ typography: 'subtitle2' }}
+        sx={{
+          typography: 'subtitle2',
+          cursor: 'pointer',
+          opacity: isFetching ? 0.7 : 1,
+          pointerEvents: isFetching ? 'none' : 'auto'
+        }}
         className='back-to-list'
       >
         Back to list view

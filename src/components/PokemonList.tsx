@@ -8,7 +8,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  capitalize
+  capitalize,
+  CircularProgress,
+  Box
 } from '@mui/material';
 import { useGetPokemonListQuery } from 'store/pokemonApiSlice';
 import PaginationActions from './PaginationActions';
@@ -32,10 +34,17 @@ const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
     }
   }, [defaultSelectedPokemon]);
 
-  const { data, error, isLoading } = useGetPokemonListQuery({
-    offset: page * rowsPerPage,
-    limit: rowsPerPage
-  });
+  const { data, error, isLoading, isFetching } = useGetPokemonListQuery(
+    {
+      offset: page * rowsPerPage,
+      limit: rowsPerPage
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: false
+    }
+  );
 
   const handleChangePage = React.useCallback(
     (newPage: number) => {
@@ -67,15 +76,28 @@ const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
   }
 
   if (isLoading) {
-    return <div>Loading Pokémon list...</div>;
+    return (
+      <Box display='flex' justifyContent='center' p={2}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
-    return <div>Error: {error.toString()}</div>;
+    return (
+      <Box color='error.main' p={2}>
+        Error: {error.toString()}
+      </Box>
+    );
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', position: 'relative' }}>
+      {isFetching && (
+        <Box position='absolute' top={0} right={0} p={2} zIndex={1}>
+          <CircularProgress size={24} />
+        </Box>
+      )}
       <TableContainer>
         <Table className='table-header' aria-label='pokemon table'>
           <TableHead>
@@ -91,7 +113,8 @@ const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
                 onClick={() => handlePokemonClick(pokemon.name)}
                 sx={{
                   cursor: 'pointer',
-                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff'
+                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff',
+                  opacity: isFetching ? 0.7 : 1
                 }}
               >
                 <TableCell sx={{ border: 0 }}>
@@ -106,6 +129,7 @@ const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
         totalPages={Math.ceil((data?.totalCount || 0) / rowsPerPage)}
         currentPage={page}
         onPageChange={handleChangePage}
+        disabled={isFetching}
       />
     </Paper>
   );

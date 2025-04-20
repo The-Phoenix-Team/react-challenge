@@ -9,7 +9,11 @@ interface AbilityDetailProps {
 
 const PokemonAbilityDetail = ({ name, url, index }: AbilityDetailProps) => {
   const { data: effect, isLoading: isLoadingEffect } =
-    useGetAbilityDetailsQuery(url);
+    useGetAbilityDetailsQuery(url, {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: false
+    });
 
   return (
     <TableRow
