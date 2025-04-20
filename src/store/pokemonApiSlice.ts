@@ -28,7 +28,15 @@ export const pokemonApi = createApi({
       transformResponse: (response: { results: any[]; count: number }) => ({
         pokemonList: response.results,
         totalCount: response.count
-      })
+      }),
+      // Add proper error handling
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.error('Failed to fetch Pokemon list:', error);
+        }
+      }
     }),
     getPokemonAbilities: builder.query({
       query: (pokemonName: string) => `pokemon/${pokemonName}`,
@@ -37,6 +45,14 @@ export const pokemonApi = createApi({
           name: ability.ability.name,
           url: ability.ability.url
         }));
+      },
+      // Add proper error handling
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.error(`Failed to fetch abilities for ${arg}:`, error);
+        }
       }
     }),
     getAbilityDetails: builder.query({
@@ -46,6 +62,14 @@ export const pokemonApi = createApi({
           response.effect_entries.find((entry) => entry.language.name === 'en')
             ?.effect || 'No effect available'
         );
+      },
+      // Add proper error handling
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.error(`Failed to fetch ability details for ${arg}:`, error);
+        }
       }
     })
   })

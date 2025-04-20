@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -7,21 +8,43 @@ import {
   TableHead,
   TableRow,
   Paper,
-  capitalize
+  capitalize,
+  CircularProgress,
+  Box
 } from '@mui/material';
 import { useGetPokemonListQuery } from 'store/pokemonApiSlice';
 import PaginationActions from './PaginationActions';
 import PokemonAbilities from './PokemonAbilities';
 
-const PokemonList = () => {
+interface PokemonListProps {
+  defaultSelectedPokemon?: string;
+}
+
+const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
   const [page, setPage] = useState(0);
-  const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
+  const [selectedPokemon, setSelectedPokemon] = useState<string | null>(
+    defaultSelectedPokemon || null
+  );
+  const navigate = useNavigate();
   const rowsPerPage = 5;
 
-  const { data, error, isLoading } = useGetPokemonListQuery({
-    offset: page * rowsPerPage,
-    limit: rowsPerPage
-  });
+  useEffect(() => {
+    if (defaultSelectedPokemon) {
+      setSelectedPokemon(defaultSelectedPokemon);
+    }
+  }, [defaultSelectedPokemon]);
+
+  const { data, error, isLoading, isFetching } = useGetPokemonListQuery(
+    {
+      offset: page * rowsPerPage,
+      limit: rowsPerPage
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: false
+    }
+  );
 
   const handleChangePage = React.useCallback(
     (newPage: number) => {
@@ -33,13 +56,15 @@ const PokemonList = () => {
   const handlePokemonClick = React.useCallback(
     (pokemonName: string) => {
       setSelectedPokemon(pokemonName);
+      navigate(`/pokemon/${pokemonName}`);
     },
-    [setSelectedPokemon]
+    [navigate]
   );
 
   const handleBackToList = React.useCallback(() => {
     setSelectedPokemon(null);
-  }, [setSelectedPokemon]);
+    navigate('/');
+  }, [navigate]);
 
   if (selectedPokemon) {
     return (
@@ -51,15 +76,28 @@ const PokemonList = () => {
   }
 
   if (isLoading) {
-    return <div>Loading Pokémon list...</div>;
+    return (
+      <Box display='flex' justifyContent='center' p={2}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
-    return <div>Error: {error.toString()}</div>;
+    return (
+      <Box color='error.main' p={2}>
+        Error: {error.toString()}
+      </Box>
+    );
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', position: 'relative' }}>
+      {isFetching && (
+        <Box position='absolute' top={0} right={0} p={2} zIndex={1}>
+          <CircularProgress size={24} />
+        </Box>
+      )}
       <TableContainer>
         <Table className='table-header' aria-label='pokemon table'>
           <TableHead>
@@ -75,7 +113,8 @@ const PokemonList = () => {
                 onClick={() => handlePokemonClick(pokemon.name)}
                 sx={{
                   cursor: 'pointer',
-                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff'
+                  backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff',
+                  opacity: isFetching ? 0.7 : 1
                 }}
               >
                 <TableCell sx={{ border: 0 }}>
@@ -90,6 +129,7 @@ const PokemonList = () => {
         totalPages={Math.ceil((data?.totalCount || 0) / rowsPerPage)}
         currentPage={page}
         onPageChange={handleChangePage}
+        disabled={isFetching}
       />
     </Paper>
   );
