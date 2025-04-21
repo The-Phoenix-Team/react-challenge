@@ -34,17 +34,10 @@ const PokemonList = ({ defaultSelectedPokemon }: PokemonListProps) => {
     }
   }, [defaultSelectedPokemon]);
 
-  const { data, error, isLoading, isFetching } = useGetPokemonListQuery(
-    {
-      offset: page * rowsPerPage,
-      limit: rowsPerPage
-    },
-    {
-      refetchOnMountOrArgChange: true,
-      refetchOnReconnect: true,
-      refetchOnFocus: false
-    }
-  );
+  const { data, error, isLoading, isFetching } = useGetPokemonListQuery({
+    offset: page * rowsPerPage,
+    limit: rowsPerPage
+  });
 
   const handleChangePage = React.useCallback(
     (newPage: number) => {

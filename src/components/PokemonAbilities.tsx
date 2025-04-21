@@ -24,11 +24,7 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
     isLoading,
     error,
     isFetching
-  } = useGetPokemonAbilitiesQuery(pokemonName, {
-    refetchOnMountOrArgChange: true,
-    refetchOnReconnect: true,
-    refetchOnFocus: false
-  });
+  } = useGetPokemonAbilitiesQuery(pokemonName);
 
   if (isLoading) {
     return (
