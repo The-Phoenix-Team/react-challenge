@@ -29,29 +29,40 @@ describe('Pagination component', () => {
 
   it('disables First & Prev on the first page', () => {
     renderPagination(0, 5);
-    expect(screen.getByLabelText(/First page/i)).toBeDisabled();
-    expect(screen.getByLabelText(/Previous page/i)).toBeDisabled();
+    expect(screen.getByRole('button', { name: /First page/i })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /Previous page/i })
+    ).toBeDisabled();
     // Next & Last should still be enabled
-    expect(screen.getByLabelText(/Next page/i)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Last page/i)).not.toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /Next page/i })
+    ).not.toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /Last page/i })
+    ).not.toBeDisabled();
   });
 
   it('disables Next & Last on the last page', () => {
     const lastIndex = 4; // totalPages 5 → last index = 4
     renderPagination(lastIndex, 5);
-    expect(screen.getByLabelText(/Next page/i)).toBeDisabled();
-    expect(screen.getByLabelText(/Last page/i)).toBeDisabled();
+    expect(screen.getByRole('button', { name: /Next page/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /Last page/i })).toBeDisabled();
     // First & Prev should still be enabled
-    expect(screen.getByLabelText(/First page/i)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Previous page/i)).not.toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /First page/i })
+    ).not.toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /Previous page/i })
+    ).not.toBeDisabled();
   });
 
   it('enables all buttons on a middle page', () => {
     renderPagination(2, 5);
+
     ['First page', 'Previous page', 'Next page', 'Last page'].forEach(
       (label) => {
         expect(
-          screen.getByLabelText(new RegExp(label, 'i'))
+          screen.getByRole('button', { name: new RegExp(label, 'i') })
         ).not.toBeDisabled();
       }
     );
@@ -59,25 +70,25 @@ describe('Pagination component', () => {
 
   it('calls onPageChange(0) when First is clicked', () => {
     const onPageChange = renderPagination(2, 5);
-    fireEvent.click(screen.getByLabelText(/First page/i));
+    fireEvent.click(screen.getByRole('button', { name: /First page/i }));
     expect(onPageChange).toHaveBeenCalledWith(0);
   });
 
   it('calls onPageChange(page – 1) when Prev is clicked', () => {
     const onPageChange = renderPagination(3, 5);
-    fireEvent.click(screen.getByLabelText(/Previous page/i));
+    fireEvent.click(screen.getByRole('button', { name: /Previous page/i }));
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
   it('calls onPageChange(page + 1) when Next is clicked', () => {
     const onPageChange = renderPagination(1, 5);
-    fireEvent.click(screen.getByLabelText(/Next page/i));
+    fireEvent.click(screen.getByRole('button', { name: /Next page/i }));
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
   it('calls onPageChange(totalPages - 1) when Last is clicked', () => {
     const onPageChange = renderPagination(1, 5);
-    fireEvent.click(screen.getByLabelText(/Last page/i));
+    fireEvent.click(screen.getByRole('button', { name: /Last page/i }));
     expect(onPageChange).toHaveBeenCalledWith(4);
   });
 });

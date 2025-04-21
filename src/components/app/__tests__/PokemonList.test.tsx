@@ -68,7 +68,7 @@ describe('PokemonList component', () => {
     });
     const onPageChange = vi.fn();
     renderList(0, onPageChange);
-    fireEvent.click(screen.getByLabelText(/Next page/i));
+    fireEvent.click(screen.getByRole('button', { name: /Next page/i }));
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
 });

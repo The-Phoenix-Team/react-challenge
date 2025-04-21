@@ -27,23 +27,27 @@ const Pagination = ({ page, totalPages, onPageChange }: Props): JSX.Element => {
         alignItems='center'
       >
         <Tooltip title='First page'>
-          <IconButton
-            aria-label='First page'
-            onClick={() => onPageChange(0)}
-            disabled={page === 0}
-          >
-            <FirstPageIcon />
-          </IconButton>
+          <span>
+            <IconButton
+              aria-label='First page'
+              onClick={() => onPageChange(0)}
+              disabled={page === 0}
+            >
+              <FirstPageIcon />
+            </IconButton>
+          </span>
         </Tooltip>
 
         <Tooltip title='Previous page'>
-          <IconButton
-            aria-label='Previous page'
-            onClick={() => onPageChange(page - 1)}
-            disabled={page === 0}
-          >
-            <NavigateBeforeIcon />
-          </IconButton>
+          <span>
+            <IconButton
+              aria-label='Previous page'
+              onClick={() => onPageChange(page - 1)}
+              disabled={page === 0}
+            >
+              <NavigateBeforeIcon />
+            </IconButton>
+          </span>
         </Tooltip>
 
         <Typography component='span' variant='body2' aria-live='polite'>
@@ -51,23 +55,27 @@ const Pagination = ({ page, totalPages, onPageChange }: Props): JSX.Element => {
         </Typography>
 
         <Tooltip title='Next page'>
-          <IconButton
-            aria-label='Next page'
-            onClick={() => onPageChange(page + 1)}
-            disabled={page >= totalPages - 1}
-          >
-            <NavigateNextIcon />
-          </IconButton>
+          <span>
+            <IconButton
+              aria-label='Next page'
+              onClick={() => onPageChange(page + 1)}
+              disabled={page >= totalPages - 1}
+            >
+              <NavigateNextIcon />
+            </IconButton>
+          </span>
         </Tooltip>
 
         <Tooltip title='Last page'>
-          <IconButton
-            aria-label='Last page'
-            onClick={() => onPageChange(totalPages - 1)}
-            disabled={page >= totalPages - 1}
-          >
-            <LastPageIcon />
-          </IconButton>
+          <span>
+            <IconButton
+              aria-label='Last page'
+              onClick={() => onPageChange(totalPages - 1)}
+              disabled={page >= totalPages - 1}
+            >
+              <LastPageIcon />
+            </IconButton>
+          </span>
         </Tooltip>
       </Stack>
     </nav>
