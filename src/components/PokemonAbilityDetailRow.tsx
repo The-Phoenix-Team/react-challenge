@@ -7,7 +7,7 @@ interface AbilityDetailProps {
   index: number;
 }
 
-const PokemonAbilityDetail = ({ name, url, index }: AbilityDetailProps) => {
+const PokemonAbilityDetailRow = ({ name, url, index }: AbilityDetailProps) => {
   const { data: effect, isLoading: isLoadingEffect } =
     useGetAbilityDetailsQuery(url, {
       refetchOnMountOrArgChange: true,
@@ -29,4 +29,4 @@ const PokemonAbilityDetail = ({ name, url, index }: AbilityDetailProps) => {
   );
 };
 
-export default PokemonAbilityDetail;
+export default PokemonAbilityDetailRow;

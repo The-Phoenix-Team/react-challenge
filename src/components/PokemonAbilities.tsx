@@ -11,7 +11,7 @@ import {
   CircularProgress
 } from '@mui/material';
 import { useGetPokemonAbilitiesQuery } from 'store/pokemonApiSlice';
-import PokemonAbilityDetail from './PokemonAbilityDetail';
+import PokemonAbilityDetailRow from './PokemonAbilityDetailRow';
 
 interface PokemonAbilitiesProps {
   pokemonName: string;
@@ -66,7 +66,7 @@ const PokemonAbilities = ({ pokemonName, onBack }: PokemonAbilitiesProps) => {
           </TableHead>
           <TableBody>
             {abilities?.map((ability, index) => (
-              <PokemonAbilityDetail
+              <PokemonAbilityDetailRow
                 name={ability.name}
                 url={ability.url}
                 index={index}
