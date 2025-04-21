@@ -4,8 +4,6 @@ import App from '@/App';
 import theme from '@/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-// TODO: maybe remove index.css
-import '@/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

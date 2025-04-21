@@ -8,9 +8,10 @@ import {
   Paper,
   CircularProgress,
   Alert,
-  Box
+  Box,
+  Link as MuiLink
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Pagination from '@/components/ui/Pagination';
 import { usePokemonListQuery } from '@/queries/usePokemonListQuery';
 
@@ -64,19 +65,28 @@ const PokemonList = ({ limit = 5, page, onPageChange }: Props): JSX.Element => {
             {pokemon.map((p) => (
               <TableRow
                 key={p.name}
-                hover
-                component={Link}
-                // carry the current page into the detail URL
-                to={`/pokemon/${p.name}?page=${page}`}
                 sx={{
-                  textDecoration: 'none',
                   '&:nth-of-type(odd)': {
                     backgroundColor: 'table.rowOdd'
                   }
                 }}
               >
-                <TableCell sx={{ py: 1, borderBottom: 'none' }}>
-                  {p.name.charAt(0).toUpperCase() + p.name.slice(1)}
+                <TableCell sx={{ p: 0, borderBottom: 'none' }}>
+                  <MuiLink
+                    component={RouterLink}
+                    to={`/pokemon/${p.name}?page=${page}`}
+                    sx={{
+                      display: 'block',
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      p: 2,
+                      '&:hover': {
+                        backgroundColor: 'action.hover'
+                      }
+                    }}
+                  >
+                    {p.name.charAt(0).toUpperCase() + p.name.slice(1)}
+                  </MuiLink>
                 </TableCell>
               </TableRow>
             ))}

@@ -22,7 +22,7 @@ const PokemonDetailsPage = (): JSX.Element => {
   return (
     <MainLayout>
       <Typography component='h1' variant='h4' gutterBottom>
-        Selected Pokemon: {name.charAt(0).toUpperCase() + name.slice(1)}
+        Selected Pokémon: {name.charAt(0).toUpperCase() + name.slice(1)}
       </Typography>
 
       <PokemonDetails name={name} />
@@ -33,7 +33,10 @@ const PokemonDetailsPage = (): JSX.Element => {
           to={`/pokemon?page=${page}`}
           startIcon={<ArrowBackIcon />}
           variant='text'
-          sx={{ textTransform: 'none' }}
+          sx={{
+            textTransform: 'none',
+            '&:hover': { textDecoration: 'underline' }
+          }}
         >
           Back to list (page {page + 1})
         </Button>

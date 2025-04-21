@@ -49,7 +49,7 @@ const PokemonDetails = ({ name }: Props): JSX.Element | null => {
               Ability
             </TableCell>
             <TableCell sx={{ fontWeight: 'bold', borderBottom: 'none' }}>
-              Effect
+              Ability Effect
             </TableCell>
           </TableRow>
         </TableHead>

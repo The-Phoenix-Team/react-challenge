@@ -53,7 +53,7 @@ describe('PokemonDetails component', () => {
 
     // Verify table headers
     expect(screen.getByText('Ability')).toBeInTheDocument();
-    expect(screen.getByText('Effect')).toBeInTheDocument();
+    expect(screen.getByText('Ability Effect')).toBeInTheDocument();
 
     // Verify ability rows
     expect(
