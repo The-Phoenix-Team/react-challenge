@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { pokemonApi } from './pokemonApiSlice';
+import { pokemonApiSlice } from './pokemonApiSlice';
 
 export const store = configureStore({
   reducer: {
-    [pokemonApi.reducerPath]: pokemonApi.reducer
+    [pokemonApiSlice.reducerPath]: pokemonApiSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware)
+    getDefaultMiddleware().concat(pokemonApiSlice.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

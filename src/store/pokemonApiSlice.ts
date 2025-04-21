@@ -18,10 +18,12 @@ interface PokemonResponse {
   }>;
 }
 
-export const pokemonApi = createApi({
+const BASE_URL = 'https://pokeapi.co/api/v2/';
+
+export const pokemonApiSlice = createApi({
   reducerPath: 'pokemonApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/' }),
-  keepUnusedDataFor: 3600, // 1 hour in seconds
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  keepUnusedDataFor: 3600, // 1 hour as seconds
   endpoints: (builder) => ({
     getPokemonList: builder.query({
       query: ({ offset, limit }) => `pokemon?offset=${offset}&limit=${limit}`,
@@ -29,7 +31,6 @@ export const pokemonApi = createApi({
         pokemonList: response.results,
         totalCount: response.count
       }),
-      // Add proper error handling
       async onQueryStarted(arg, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -46,7 +47,6 @@ export const pokemonApi = createApi({
           url: ability.ability.url
         }));
       },
-      // Add proper error handling
       async onQueryStarted(arg, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -56,14 +56,13 @@ export const pokemonApi = createApi({
       }
     }),
     getAbilityDetails: builder.query({
-      query: (url: string) => url.replace('https://pokeapi.co/api/v2/', ''),
+      query: (url: string) => url.replace(BASE_URL, ''), // the ability URL is already a full URL and doesn't need to be prefixed with the baseUrl
       transformResponse: (response: AbilityResponse): string => {
         return (
           response.effect_entries.find((entry) => entry.language.name === 'en')
             ?.effect || 'No effect available'
         );
       },
-      // Add proper error handling
       async onQueryStarted(arg, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -79,4 +78,4 @@ export const {
   useGetPokemonListQuery,
   useGetPokemonAbilitiesQuery,
   useGetAbilityDetailsQuery
-} = pokemonApi;
+} = pokemonApiSlice;
