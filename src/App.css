@@ -1,0 +1,29 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: rubik, sans-serif;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1500px;
+  /* border-radius: 2px;
+  border-style: solid; */
+}
+
+.row {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}

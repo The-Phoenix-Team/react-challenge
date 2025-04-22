@@ -1,0 +1,44 @@
+.header {
+  background-color: #adcdf7;
+}
+.text {
+  font-size: 24px;
+}
+
+.pokemon:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.pagination {
+  background-color: #deebfd;
+  display: flex;
+
+  justify-content: center;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 25px;
+
+  align-items: center;
+}
+
+.page-number {
+  font-size: 20px;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: #555;
+}
+
+button:hover {
+  cursor: pointer;
+}
+button:active {
+  color: #000;
+}
+button:disabled {
+  color: #ccc;
+}

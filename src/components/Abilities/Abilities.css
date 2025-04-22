@@ -1,0 +1,23 @@
+.ability-header {
+  display: flex;
+}
+
+.ability {
+  display: flex;
+}
+
+.ability:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+.small-wd {
+  min-width: 200px;
+}
+
+.back {
+  display: flex;
+  justify-content: end;
+}
+
+.back-link-text {
+  color: #60a1f7;
+}
