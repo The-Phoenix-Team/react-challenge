@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import MainLayout from '@/layouts/MainLayout';
-import PokemonList from '@/components/app/PokemonList';
+import PokemonListContainer from '@/components/app/PokemonListContainer';
 
 const PokemonListPage = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,7 +19,11 @@ const PokemonListPage = (): JSX.Element => {
       <Typography component='h1' variant='h4' gutterBottom>
         Pokémon List
       </Typography>
-      <PokemonList limit={5} page={page} onPageChange={handlePageChange} />
+      <PokemonListContainer
+        limit={5}
+        page={page}
+        onPageChange={handlePageChange}
+      />
     </MainLayout>
   );
 };

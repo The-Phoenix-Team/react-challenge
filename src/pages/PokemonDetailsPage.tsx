@@ -2,7 +2,7 @@ import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { Box, Button, Typography, Alert } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MainLayout from '@/layouts/MainLayout';
-import PokemonDetails from '@/components/app/PokemonDetails';
+import PokemonDetailsContainer from '@/components/app/PokemonDetailsContainer';
 
 const PokemonDetailsPage = (): JSX.Element => {
   const { name } = useParams<{ name: string }>(); // <-- get the Pokémon name
@@ -25,7 +25,7 @@ const PokemonDetailsPage = (): JSX.Element => {
         Selected Pokémon: {name.charAt(0).toUpperCase() + name.slice(1)}
       </Typography>
 
-      <PokemonDetails name={name} />
+      <PokemonDetailsContainer name={name} />
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
         <Button

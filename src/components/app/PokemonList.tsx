@@ -6,44 +6,28 @@ import {
   TableRow,
   TableCell,
   Paper,
-  CircularProgress,
-  Alert,
   Box,
   Link as MuiLink
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Pagination from '@/components/ui/Pagination';
-import { usePokemonListQuery } from '@/queries/usePokemonListQuery';
 
 type Props = {
+  pokemon: { name: string }[];
+  count: number;
   limit?: number;
   page: number;
   onPageChange: (page: number) => void;
 };
 
-// paginated list of pokemon names
-const PokemonList = ({ limit = 5, page, onPageChange }: Props): JSX.Element => {
-  const offset = page * limit;
-  const { pokemon, count, isLoading, error } = usePokemonListQuery(
-    limit,
-    offset
-  );
+const PokemonList = ({
+  pokemon,
+  count,
+  limit = 5,
+  page,
+  onPageChange
+}: Props): JSX.Element => {
   const totalPages = Math.ceil(count / limit);
-
-  if (isLoading) {
-    return (
-      <Paper square elevation={0} sx={{ p: 4, textAlign: 'center' }}>
-        <CircularProgress />
-      </Paper>
-    );
-  }
-  if (error) {
-    return (
-      <Alert severity='error' sx={{ my: 2 }}>
-        Error loading Pokémon.
-      </Alert>
-    );
-  }
 
   return (
     <>

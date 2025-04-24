@@ -3,18 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme';
 import { usePokemonDetailsQuery } from '@/queries/usePokemonDetailsQuery';
-import PokemonDetails from '../PokemonDetails';
+import PokemonDetailsContainer from '../PokemonDetailsContainer';
 
 // Mock the data‑fetching hook
 vi.mock('@/queries/usePokemonDetailsQuery');
 const mockUsePokemonDetailsQuery = vi.mocked(usePokemonDetailsQuery);
 
-describe('PokemonDetails component', () => {
+describe('PokemonDetailsContainer component', () => {
   // Helper to render the component with theme
   const renderDetails = (name: string) =>
     render(
       <ThemeProvider theme={theme}>
-        <PokemonDetails name={name} />
+        <PokemonDetailsContainer name={name} />
       </ThemeProvider>
     );
 

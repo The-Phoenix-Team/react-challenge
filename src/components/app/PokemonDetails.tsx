@@ -5,36 +5,15 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Paper,
-  CircularProgress,
-  Alert
+  Paper
 } from '@mui/material';
-import { usePokemonDetailsQuery } from '@/queries/usePokemonDetailsQuery';
 import { PokemonAbility } from '@/types/pokemon';
 
 interface Props {
-  name: string;
+  abilities: PokemonAbility[];
 }
 
-const PokemonDetails = ({ name }: Props): JSX.Element | null => {
-  const { abilities, isLoading, error } = usePokemonDetailsQuery(name);
-
-  if (isLoading) {
-    return (
-      <Paper square elevation={0} sx={{ p: 4, textAlign: 'center' }}>
-        <CircularProgress />
-      </Paper>
-    );
-  }
-
-  if (error) {
-    return (
-      <Alert severity='error' sx={{ my: 2 }}>
-        Error loading details for {name}.
-      </Alert>
-    );
-  }
-
+const PokemonDetails = ({ abilities }: Props): JSX.Element => {
   return (
     <TableContainer
       component={Paper}
