@@ -1,7 +1,12 @@
 import './App.css';
+import { PokemonClient } from 'pokenode-ts';
 
 const App = (): React.ReactNode => {
-  return <div>{/* POKEMONS */}</div>;
+  const client = new PokemonClient();
+
+  const pokemon = client.listPokemons(0, 10)
+  console.log({ pokemon })
+  return <div>Pokemon</div>;
 };
 
 export default App;
