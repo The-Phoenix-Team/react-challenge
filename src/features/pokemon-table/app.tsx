@@ -1,8 +1,9 @@
 import { Alert, Box, Paper, TablePagination } from '@mui/material';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router';
-import getPokemonList from './api/pokemon';
+import getPokemonList from './api/pokemon-list';
 import PokemonTable from './components/pokemon-table';
+import POKEMON_TABLE_PAGE_SIZE from './constants';
 
 const PokemonTableApp = () => {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -36,9 +37,9 @@ const PokemonTableApp = () => {
           count={count || 0}
           rowsPerPage={5}
           rowsPerPageOptions={[]}
-          page={offset}
+          page={offset / POKEMON_TABLE_PAGE_SIZE}
           onPageChange={(_, pageNum) => {
-            setSearchParams({ offset: `${pageNum}` });
+            setSearchParams({ offset: `${pageNum * POKEMON_TABLE_PAGE_SIZE}` });
           }}
           showFirstButton
           showLastButton
