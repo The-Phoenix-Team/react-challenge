@@ -1,4 +1,4 @@
-import PokemonTableApp from 'features/pokemon-list/app';
+import PokemonTableApp from 'features/pokemon-table/app';
 import './App.css';
 
 const App = (): React.ReactNode => {

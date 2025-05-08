@@ -1,8 +1,8 @@
-import { Pokemon } from 'types';
+import { Pokemon } from 'features/pokemon-table/types';
+import POKEMON_LIST_LIMIT from '../constants';
 
 type PokemonListParams = {
   offset?: number;
-  limit?: number;
 };
 
 type PokemonListResponse = {
@@ -18,15 +18,13 @@ type PokemonListResponse = {
  *
  * @param options - options to pass to the API
  * @param options.offset - The number of items to skip before starting to collect the result set
- * @param options.limit - The numbers of results to return
  * @returns
  */
 const getPokemonList = async ({
-  offset = 0,
-  limit = 5
+  offset = 0
 }: PokemonListParams): Promise<PokemonListResponse> => {
   const resp = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
+    `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${POKEMON_LIST_LIMIT}`
   );
 
   if (!resp.ok) {
