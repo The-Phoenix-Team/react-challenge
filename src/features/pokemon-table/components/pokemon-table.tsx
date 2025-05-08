@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Pokemon } from 'features/pokemon-table/types';
 import React from 'react';
+import { useNavigate } from 'react-router';
 import { v4 as uuid } from 'uuid';
 import POKEMON_LIST_LIMIT from '../constants';
 
@@ -21,6 +22,8 @@ const PokemonTable: React.FC<PokemonTableProps> = ({
   pokemons = [],
   showLoading
 }) => {
+  const navigate = useNavigate();
+
   return (
     <TableContainer>
       <Table
@@ -43,7 +46,12 @@ const PokemonTable: React.FC<PokemonTableProps> = ({
                 );
               })
             : pokemons.map((pokemon: Pokemon) => (
-                <TableRow key={pokemon.name}>
+                <TableRow
+                  key={pokemon.name}
+                  onClick={() => {
+                    navigate(`/pokemon-details/${pokemon.name}`);
+                  }}
+                >
                   <TableCell>{pokemon.name}</TableCell>
                 </TableRow>
               ))}

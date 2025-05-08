@@ -1,26 +1,24 @@
 import { Alert, Box, Paper, TablePagination } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import React, { useEffect } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router';
 import getPokemonList from './api/pokemon';
 import PokemonTable from './components/pokemon-table';
 
 const PokemonTableApp = () => {
-  const [offset, setOffset] = React.useState(0);
-  const [pokemonCount, setPokemonCount] = React.useState(0);
+  const [searchParams, setSearchParams] = useSearchParams({
+    offset: '0'
+  });
+
+  const offset = Number(searchParams.get('offset'));
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ['pokemonlist', offset],
-    queryFn: () => getPokemonList({ offset })
+    queryFn: () => getPokemonList({ offset }),
+    placeholderData: keepPreviousData
   });
 
-  const { results: pokemons } = data || {};
+  const { results: pokemons, count } = data || {};
   const showLoadingState = isLoading || isError;
-
-  useEffect(() => {
-    if (data) {
-      setPokemonCount(data.count);
-    }
-  }, [data]);
 
   return (
     <Box sx={{ height: '500px' }}>
@@ -35,12 +33,12 @@ const PokemonTableApp = () => {
         <TablePagination
           component='div'
           disabled={showLoadingState}
-          count={pokemonCount || 0}
+          count={count || 0}
           rowsPerPage={5}
           rowsPerPageOptions={[]}
           page={offset}
           onPageChange={(_, pageNum) => {
-            setOffset(pageNum);
+            setSearchParams({ offset: `${pageNum}` });
           }}
           showFirstButton
           showLastButton
