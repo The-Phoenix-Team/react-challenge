@@ -1,5 +1,6 @@
 import { Alert, Box, Paper, TablePagination } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import Pagination from 'components/pagination';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import getPokemonList from './api/pokemon-list';
@@ -36,11 +37,18 @@ const PokemonApp = () => {
         <Alert severity='info'>No Pokemon found!</Alert>
       )}
       <PokemonTable pokemons={pokemons} showLoading={showLoading} />
-      <Paper>
+      <Paper sx={{ backgroundColor: '#deebfd' }}>
         <TablePagination
+          ActionsComponent={Pagination}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            placeSelf: 'center'
+          }}
           component='div'
           disabled={showLoading}
           count={pokemonCount || 0}
+          labelDisplayedRows={({ from, to, count: total }) => ''}
           rowsPerPage={5}
           rowsPerPageOptions={[]}
           page={offset / POKEMON_TABLE_PAGE_SIZE}

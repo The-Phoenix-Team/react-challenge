@@ -35,7 +35,7 @@ const TableSkeletonLoader: React.FC<TableSkeletonLoaderProps> = ({
 const TableHeader: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <TableHead>
-      <TableRow sx={{ backgroundColor: 'lightblue' }}>{children}</TableRow>
+      <TableRow sx={{ backgroundColor: '#adcdf7' }}>{children}</TableRow>
     </TableHead>
   );
 };
@@ -46,7 +46,7 @@ const Table: React.FC<PropsWithChildren> = ({ children }) => {
       <MUITable
         sx={{
           '& tbody tr:nth-of-type(odd)': {
-            backgroundColor: 'grey.100'
+            backgroundColor: '#f8f8f8'
           }
         }}
       >
