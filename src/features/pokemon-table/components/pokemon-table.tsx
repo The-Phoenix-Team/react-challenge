@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import POKEMON_TABLE_PAGE_SIZE from '../constants';
 
 type PokemonTableProps = {
-  pokemons?: Array<Pokemon>;
+  pokemons?: Pokemon[];
   showLoading: boolean;
 };
 

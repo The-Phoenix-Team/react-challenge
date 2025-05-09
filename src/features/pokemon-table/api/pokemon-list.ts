@@ -2,7 +2,7 @@ import { Pokemon } from 'features/pokemon-table/types';
 import POKEMON_TABLE_PAGE_SIZE from '../constants';
 
 type PokemonListResponse = {
-  results: Array<Pokemon>;
+  results: Pokemon[];
   count: number;
   next: string | null;
   previous: string | null;
@@ -16,11 +16,9 @@ type PokemonListResponse = {
  * @param options.offset - The number of items to skip before starting to collect the result set
  * @returns
  */
-const getPokemonList = async ({
-  offset = 0
-}: {
-  offset: number;
-}): Promise<PokemonListResponse> => {
+const getPokemonList = async (
+  offset: number = 0
+): Promise<PokemonListResponse> => {
   const resp = await fetch(
     `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${POKEMON_TABLE_PAGE_SIZE}`
   );
