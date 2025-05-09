@@ -1,4 +1,4 @@
-import { Pokemon } from 'features/pokemon-table/types';
+import { Pokemon } from 'features/pokemon/types';
 import POKEMON_TABLE_PAGE_SIZE from '../constants';
 
 type PokemonListResponse = {

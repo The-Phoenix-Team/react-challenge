@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
 import Table, { TableHeader, TableSkeletonLoader } from 'components/table';
-import { Pokemon } from 'features/pokemon-table/types';
+import { Pokemon } from 'features/pokemon/types';
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import POKEMON_TABLE_PAGE_SIZE from '../constants';

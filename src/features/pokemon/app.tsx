@@ -6,7 +6,7 @@ import getPokemonList from './api/pokemon-list';
 import PokemonTable from './components/pokemon-table';
 import POKEMON_TABLE_PAGE_SIZE from './constants';
 
-const PokemonTableApp = () => {
+const PokemonApp = () => {
   const [pokemonCount, setPokemonCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams({
     offset: '0'
@@ -45,7 +45,9 @@ const PokemonTableApp = () => {
           rowsPerPageOptions={[]}
           page={offset / POKEMON_TABLE_PAGE_SIZE}
           onPageChange={(_, pageNum) => {
-            setSearchParams({ offset: `${pageNum * POKEMON_TABLE_PAGE_SIZE}` });
+            setSearchParams({
+              offset: `${pageNum * POKEMON_TABLE_PAGE_SIZE}`
+            });
           }}
           showFirstButton
           showLastButton
@@ -55,4 +57,4 @@ const PokemonTableApp = () => {
   );
 };
 
-export default PokemonTableApp;
+export default PokemonApp;
