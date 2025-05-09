@@ -14,7 +14,7 @@ const PokemonTableApp = () => {
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ['pokemonlist', offset],
-    queryFn: () => getPokemonList({ offset }),
+    queryFn: () => getPokemonList(offset),
     placeholderData: keepPreviousData
   });
 
