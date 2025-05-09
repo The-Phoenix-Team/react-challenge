@@ -1,10 +1,36 @@
 import {
   Table as MUITable,
+  Skeleton,
+  TableCell,
   TableContainer,
   TableHead,
   TableRow
 } from '@mui/material';
 import React, { PropsWithChildren } from 'react';
+import { v4 as uuid } from 'uuid';
+
+type TableSkeletonLoaderProps = {
+  numRows?: number;
+  numCells?: number;
+};
+
+const TableSkeletonLoader: React.FC<TableSkeletonLoaderProps> = ({
+  numRows = 5,
+  numCells = 1
+}) =>
+  Array.from({ length: numRows }).map(() => {
+    return (
+      <TableRow key={uuid()}>
+        {Array.from({ length: numCells }).map(() => {
+          return (
+            <TableCell key={uuid()}>
+              <Skeleton variant='text' width='100%' />
+            </TableCell>
+          );
+        })}
+      </TableRow>
+    );
+  });
 
 const TableHeader: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -30,5 +56,5 @@ const Table: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export { TableHeader };
+export { TableHeader, TableSkeletonLoader };
 export default Table;

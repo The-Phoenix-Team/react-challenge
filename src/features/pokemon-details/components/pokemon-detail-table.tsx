@@ -1,15 +1,16 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
-import Table, { TableHeader } from 'components/table';
+import Table, { TableHeader, TableSkeletonLoader } from 'components/table';
 import React, { PropsWithChildren } from 'react';
 import { Ability } from '../types';
 
 type PokemonDetailTableProps = {
   pokemonDetails: Ability[];
+  showLoading: boolean;
 };
 
 const PokemonDetailTable: React.FC<
   PropsWithChildren<PokemonDetailTableProps>
-> = ({ pokemonDetails }) => {
+> = ({ pokemonDetails, showLoading }) => {
   return (
     <Table>
       <TableHeader>
@@ -17,14 +18,18 @@ const PokemonDetailTable: React.FC<
         <TableCell>Ability Effect</TableCell>
       </TableHeader>
       <TableBody>
-        {pokemonDetails.map((detail) => {
-          return (
-            <TableRow key={detail.name}>
-              <TableCell>{detail.name}</TableCell>
-              <TableCell>{detail.description}</TableCell>
-            </TableRow>
-          );
-        })}
+        {showLoading ? (
+          <TableSkeletonLoader numRows={4} numCells={2} />
+        ) : (
+          pokemonDetails.map((detail) => {
+            return (
+              <TableRow key={detail.name}>
+                <TableCell width={200}>{detail.name}</TableCell>
+                <TableCell>{detail.description}</TableCell>
+              </TableRow>
+            );
+          })
+        )}
       </TableBody>
     </Table>
   );
