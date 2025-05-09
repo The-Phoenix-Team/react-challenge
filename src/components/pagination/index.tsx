@@ -4,16 +4,14 @@ import {
   KeyboardArrowRight,
   LastPage
 } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  TablePagination as MUITablePagination,
+  Typography
+} from '@mui/material';
 import { TablePaginationActionsProps } from '@mui/material/TablePagination/TablePaginationActions';
 import React from 'react';
-
-type PaginationProps = {
-  count: number;
-  page: number;
-  disabled?: boolean;
-  onPageChange: (pageNum: number) => void;
-};
 
 const Pagination: React.FC<TablePaginationActionsProps> = ({
   count,
@@ -95,41 +93,47 @@ const Pagination: React.FC<TablePaginationActionsProps> = ({
       </IconButton>
     </Box>
   );
-  // return (
-  //   <div>
-  //     <IconButton
-  //       aria-label='first page'
-  //       disabled={firstButtonItem.disabled}
-  //       onClick={firstButtonItem.onClick}
-  //     >
-  //       <FirstPage />
-  //     </IconButton>
-  //     <IconButton
-  //       aria-label='previous page'
-  //       disabled={prevButtonItem.disabled}
-  //       onClick={prevButtonItem.onClick}
-  //     >
-  //       <KeyboardArrowLeft />
-  //     </IconButton>
-  //     <Typography component='span' variant='body2'>
-  //       Page {page + 1} of {count}
-  //     </Typography>
-  //     <IconButton
-  //       aria-label='next page'
-  //       disabled={nextButtonItem.disabled}
-  //       onClick={nextButtonItem.onClick}
-  //     >
-  //       <KeyboardArrowRight />
-  //     </IconButton>
-  //     <IconButton
-  //       aria-label='last page'
-  //       disabled={lastButtonItem.disabled}
-  //       onClick={lastButtonItem.onClick}
-  //     >
-  //       <LastPage />
-  //     </IconButton>
-  //   </div>
-  // );
 };
 
-export default Pagination;
+type TablePaginationProps = {
+  onPageChange: (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    page: number
+  ) => void;
+  page: number;
+  disabled?: boolean;
+  count: number;
+  rowsPerPage: number;
+};
+
+const TablePagination: React.FC<TablePaginationProps> = ({
+  onPageChange,
+  page,
+  disabled,
+  count,
+  rowsPerPage
+}) => {
+  return (
+    <MUITablePagination
+      ActionsComponent={Pagination}
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        placeSelf: 'center'
+      }}
+      component='div'
+      disabled={disabled}
+      count={count}
+      // A way to remove the default labeling
+      labelDisplayedRows={() => ''}
+      rowsPerPage={rowsPerPage}
+      rowsPerPageOptions={[]}
+      page={page}
+      onPageChange={onPageChange}
+      showFirstButton
+      showLastButton
+    />
+  );
+};
+
+export default TablePagination;

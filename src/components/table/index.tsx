@@ -20,7 +20,7 @@ const TableSkeletonLoader: React.FC<TableSkeletonLoaderProps> = ({
 }) =>
   Array.from({ length: numRows }).map(() => {
     return (
-      <TableRow key={uuid()}>
+      <TableRow key={uuid()} data-testid='table-skeleton-loader-row'>
         {Array.from({ length: numCells }).map(() => {
           return (
             <TableCell key={uuid()}>

@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
 import Table, { TableHeader, TableSkeletonLoader } from 'components/table';
 import React, { PropsWithChildren } from 'react';
-import { Ability } from '../types';
+import { Ability } from '../../types';
 
 type PokemonDetailTableProps = {
   pokemonDetails: Ability[];

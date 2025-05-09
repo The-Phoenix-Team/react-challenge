@@ -1,7 +1,7 @@
-import { Alert } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { Link, useLocation, useParams } from 'react-router';
 import PokemonDetailTable from './components/pokemon-detail-table';
-import usePokemonAbilities from './hooks/use-pokemon-details';
+import usePokemonAbilities from './hooks/use-pokemon-abilities';
 
 const PokemonDetailsApp = () => {
   const location = useLocation();
@@ -17,12 +17,12 @@ const PokemonDetailsApp = () => {
     <section>
       <h1>Selected Pokemon: {name}</h1>
       {isError && (
-        <Alert severity='error'>
+        <Alert severity='error' data-testid='error-alert-pokemons'>
           There was an error fetching ability details!
         </Alert>
       )}
       {abilities?.length === 0 && !showLoadingState && (
-        <Alert severity='error'>
+        <Alert severity='info' data-testid='no-ability-details'>
           No ability details found for this Pokemon!
         </Alert>
       )}
@@ -30,14 +30,20 @@ const PokemonDetailsApp = () => {
         pokemonDetails={abilities || []}
         showLoading={!!showLoadingState}
       />
-      <Link
-        to={{
-          pathname: '/',
-          search: prevOffset ? `?offset=${prevOffset}` : undefined
+      <Box
+        sx={{
+          float: 'right'
         }}
       >
-        Back to list view
-      </Link>
+        <Link
+          to={{
+            pathname: '/',
+            search: prevOffset ? `?offset=${prevOffset}` : undefined
+          }}
+        >
+          Back to list view
+        </Link>
+      </Box>
     </section>
   );
 };
